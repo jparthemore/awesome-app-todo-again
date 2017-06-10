@@ -1,13 +1,4 @@
 /*jshint esversion: 6*/
-// const dummyTodo = {
-//   task: 'call the dr',
-//   isCompleted: false
-// };
-// const dummyTodo2 = {
-//   task: 'call the vet',
-//   isCompleted: false
-// };
-
 const TodoApp = {
   rootElement: '#app',
   myTodos:[],
@@ -18,14 +9,16 @@ const TodoApp = {
   },
   cacheDOM: function(){
     this.root = document.querySelector(this.rootElement);
+    this.inputForm = this.root.querySelector('.create-form');
     this.inputBox = this.root.querySelector('.todo-input');
-    this.addBtn = this.root.querySelector('.add-button');
     this.todoList = this.root.querySelector('.todo-list');
   },
   bindEvents: function(){
-    this.addBtn.addEventListener('click',()=>this.addaTodo());
+    //this.addBtn.addEventListener('click',()=>this.addaTodo());
+    this.inputForm.addEventListener('submit',(event)=>this.addaTodo(event));
   },
-  addaTodo: function(){
+  addaTodo: function(event){
+    event.preventDefault();//this keeps the submit button from submitting the form, and thus from refreshing the form
     const taskVal = this.inputBox.value;
     if(!taskVal){
       return;
