@@ -48,7 +48,7 @@ const TodoApp = {
   gimmeLi: function(todo){
     //return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
     if(todo.isComplete){
-      return (`<li>${todo.task}<button class='delete-button'>X</button>
+      return (`<li><del>${todo.task}</del><button class='delete-button'>X</button>
       <input type="checkbox" class="complete-checkbox" checked/>Complete?</li>`);
     }
     else{
