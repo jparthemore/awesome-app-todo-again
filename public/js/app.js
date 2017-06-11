@@ -37,8 +37,8 @@ const TodoApp = {
   },
   bindDeleteEvents: function(){
       //this.deleteBtns.forEach(()=>{});
-      this.deleteBtns.forEach((btn,index)=>{
-      btn.addEventListener('click',()=>this.deleteaTodo(index));
+      this.deleteBtns.forEach((chkbox,index)=>{
+      chkbox.addEventListener('click',()=>this.deleteaTodo(index));
     });
   },
   deleteaTodo: function(index){
@@ -46,7 +46,32 @@ const TodoApp = {
     this.render();
   },
   gimmeLi: function(todo){
-    return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
+    //return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
+    if(todo.isComplete){
+      return (`<li>${todo.task}<button class='delete-button'>X</button>
+      <input type="checkbox" class="complete-checkbox" checked/>Complete?</li>`);
+    }
+    else{
+      return (`<li>${todo.task}<button class='delete-button'>X</button>
+      <input type="checkbox" class="complete-checkbox"/>Complete?</li>`);
+    }
+  },
+  cacheCompleteCheckboxes: function(){
+    this.completeChkBoxes = this.root.querySelectorAll('.complete-checkbox');
+  },
+  bindCompleteCheckboxEvents: function(){
+      this.completeChkBoxes.forEach((chkbox,index)=>{
+      chkbox.addEventListener('change',()=>this.changeCompleteStatus(chkbox.checked,index));
+    });
+  },
+  changeCompleteStatus: function(isChecked,index){
+    if (isChecked){
+      this.myTodos[index].isComplete = true;
+    }
+    else{
+      this.myTodos[index].isComplete = false;
+    }
+    this.render();
   },
   render: function(){
     //const lis = this.myTodos.map(todo=>todo.task).join(''); //this works but does not create actual li elements
@@ -64,9 +89,10 @@ const TodoApp = {
     this.todoList.innerHTML = lis;
     this.cacheDeleteButtons();
     this.bindDeleteEvents();
+    this.cacheCompleteCheckboxes();
+    this.bindCompleteCheckboxEvents();
+
   }
-
-
 
 };
 TodoApp.start();
