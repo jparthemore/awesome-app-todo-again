@@ -12,6 +12,7 @@ const TodoApp = {
     this.inputForm = this.root.querySelector('.create-form');
     this.inputBox = this.root.querySelector('.todo-input');
     this.todoList = this.root.querySelector('.todo-list');
+    this.completeLabel = this.root.querySelector('.complete-label');
   },
   bindEvents: function(){
     //this.addBtn.addEventListener('click',()=>this.addaTodo());
@@ -47,14 +48,45 @@ const TodoApp = {
   },
   gimmeLi: function(todo){
     //return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
+    // if(todo.isComplete){
+    //   return (`<li><del>${todo.task}</del><button class='delete-button'>X</button>
+    //   <input type="checkbox" class="complete-checkbox" checked/></li>`);
+    // }
+    // else{
+    //   return (`<li class="todo-item">${todo.task}<button class='delete-button'>X</button>
+    //   <input type="checkbox" class="complete-checkbox"/></li>`);
+    // }
+
+    //this works sort of
+    // if(todo.isComplete){
+    //   return (`<li><del>${todo.task}</del><button class='delete-button'style="margin-left: 30px">X</button>
+    //   <input type="checkbox" class="complete-checkbox"style="margin-left: 170px" checked/></li>`);
+    // }
+    // else{
+    //   return (`<li class="todo-item">${todo.task}<button class='delete-button'style="margin-left: 30px">X</button>
+    //   <input type="checkbox" class="complete-checkbox" style="margin-left: 170px"/></li>`);
+    // }
+
+    //this works but delete button not yet on left
+    // if(todo.isComplete){
+    //   return (`<li><del>${todo.task}</del><button class='delete-button'>X</button>
+    //   <input type="checkbox" class="complete-checkbox" checked/></li>`);
+    // }
+    // else{
+    //   return (`<li class="todo-item">${todo.task}<button class='delete-button'>X</button>
+    //   <input type="checkbox" class="complete-checkbox"/></li>`);
+    // }
+
     if(todo.isComplete){
-      return (`<li><del>${todo.task}</del><button class='delete-button'>X</button>
-      <input type="checkbox" class="complete-checkbox" checked/>Complete?</li>`);
+      return (`<li class="todo-item"><button class='delete-button'>X</button><del>${todo.task}</del>
+      <input type="checkbox" class="complete-checkbox" checked/></li>`);
     }
     else{
-      return (`<li>${todo.task}<button class='delete-button'>X</button>
-      <input type="checkbox" class="complete-checkbox"/>Complete?</li>`);
+      return (`<li class="todo-item"><button class='delete-button'>X</button>${todo.task}
+      <input type="checkbox" class="complete-checkbox"/></li>`);
     }
+//<h1 style="color:blue;">This is a Blue Heading</h1>
+//object.style.paddingTop="2cm"
   },
   cacheCompleteCheckboxes: function(){
     this.completeChkBoxes = this.root.querySelectorAll('.complete-checkbox');
@@ -87,6 +119,12 @@ const TodoApp = {
                     .map(todo=>this.gimmeLi(todo))
                     .join('');
     this.todoList.innerHTML = lis;
+    if(this.myTodos.length>0){
+      this.completeLabel.style.visibility = 'visible';
+    }
+    else{
+      this.completeLabel.style.visibility = 'hidden';
+    }
     this.cacheDeleteButtons();
     this.bindDeleteEvents();
     this.cacheCompleteCheckboxes();

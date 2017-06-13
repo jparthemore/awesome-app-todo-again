@@ -1,8 +1,64 @@
-
+/**,
+*::before,
+*::after{
+  box-sizing: border-box;
+}*/
 
 
 body{
     /*font-family: 'Open Sans', sans-serif;
     font-size: 16px;*/
-    background-color: cornflowerBlue: ;
+    background-color: cornflowerBlue;
+}
+
+.create{
+  text-align: center;
+}
+
+.create-form {
+  border: 8px solid blue;
+  padding: 30px 30px;
+  margin: 20px;
+}
+
+.add-button {
+  border-radius: 20px;
+  background-color: lightblue;
+  color: black;
+  border: 2px solid blue;
+}
+
+.read {
+  /*border: 8px solid blue;
+  border-top: 0px;*/
+  padding: 30px 30px;
+  padding-top: 0;
+  margin: 20px;
+}
+
+.complete-label{
+  text-align: right;
+  font-size:16px;
+  font-weight: normal;
+  /*visibility: hidden;*/
+}
+
+.todo-list{
+    list-style-type: none;
+ }
+
+.delete-button{
+  text-align: right;
+  /*margin-left: 30px; wrked when delete was on the left of task*/
+  margin-right: 30px;
+  /*background-color: lightblue;*/
+  border: 2px solid black;
+}
+
+.todo-item{
+  /*list-style-position: inside; doesn't do anythig=ng!*/
+  margin-top:10px;
+}
+.complete-checkbox{
+  margin-left: 170px;
 }
