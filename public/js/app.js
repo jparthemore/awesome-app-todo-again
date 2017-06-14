@@ -12,6 +12,7 @@ const TodoApp = {
     this.inputForm = this.root.querySelector('.create-form');
     this.inputBox = this.root.querySelector('.todo-input');
     this.todoList = this.root.querySelector('.todo-list');
+    this.completeLabel = this.root.querySelector('.complete-label');
   },
   bindEvents: function(){
     //this.addBtn.addEventListener('click',()=>this.addaTodo());
@@ -47,13 +48,36 @@ const TodoApp = {
   },
   gimmeLi: function(todo){
     //return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
+
+    // if(todo.isComplete){
+    //   return (`<li class="todo-item"><button class='delete-button'>X</button><del>${todo.task}</del>
+    //   <input type="checkbox" class="complete-checkbox" checked/></li>`);
+    // }
+    // else{
+    //   return (`<li class="todo-item"><button class='delete-button'>X</button>${todo.task}
+    //   <input type="checkbox" class="complete-checkbox"/></li>`);
+    // }
     if(todo.isComplete){
-      return (`<li><del>${todo.task}</del><button class='delete-button'>X</button>
-      <input type="checkbox" class="complete-checkbox" checked/>Complete?</li>`);
+      return (`<li class="todo-item">
+                  <div class = 'taskitems-left-side'>
+                    <button class='delete-button'>X</button>
+                    <del>${todo.task}</del>
+                  </div>
+                  <div class = 'taskitems-right-side'>
+                    <input type="checkbox" class="complete-checkbox" checked/>
+                  </div>
+              </li>`);
     }
     else{
-      return (`<li>${todo.task}<button class='delete-button'>X</button>
-      <input type="checkbox" class="complete-checkbox"/>Complete?</li>`);
+      return (`<li class="todo-item">
+                  <div class = 'taskitems-left-side'>
+                    <button class='delete-button'>X</button>
+                    ${todo.task}
+                  </div>
+                  <div class = 'taskitems-right-side'>
+                    <input type="checkbox" class="complete-checkbox"/>
+                  </div>
+              </li>`);
     }
   },
   cacheCompleteCheckboxes: function(){
@@ -87,6 +111,12 @@ const TodoApp = {
                     .map(todo=>this.gimmeLi(todo))
                     .join('');
     this.todoList.innerHTML = lis;
+    if(this.myTodos.length>0){
+      this.completeLabel.style.visibility = 'visible';
+    }
+    else{
+      this.completeLabel.style.visibility = 'hidden';
+    }
     this.cacheDeleteButtons();
     this.bindDeleteEvents();
     this.cacheCompleteCheckboxes();
