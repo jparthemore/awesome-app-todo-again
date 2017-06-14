@@ -11,6 +11,7 @@ const TodoApp = {
     this.root = document.querySelector(this.rootElement);
     this.inputForm = this.root.querySelector('.create-form');
     this.inputBox = this.root.querySelector('.todo-input');
+    //console.dir(this.inputBox);
     this.todoList = this.root.querySelector('.todo-list');
     this.completeLabel = this.root.querySelector('.complete-label');
   },
@@ -34,7 +35,6 @@ const TodoApp = {
   },
   cacheDeleteButtons: function(){
     this.deleteBtns = this.root.querySelectorAll('.delete-button');
-    //console.dir(this.deleteBtns);
   },
   bindDeleteEvents: function(){
       //this.deleteBtns.forEach(()=>{});
@@ -46,17 +46,25 @@ const TodoApp = {
     this.myTodos.splice(index,1);
     this.render();
   },
-  gimmeLi: function(todo){
-    //return (`<li>${todo.task}<button class='delete-button'>X</button></li>`);
+  cacheLiItems: function(){
+    //this.liItems = this.root.querySelectorAll('.taskitems-left-side');//don't need this
+    this.taskItem = this.root.querySelectorAll('.item-task');
+  },
 
-    // if(todo.isComplete){
-    //   return (`<li class="todo-item"><button class='delete-button'>X</button><del>${todo.task}</del>
-    //   <input type="checkbox" class="complete-checkbox" checked/></li>`);
-    // }
-    // else{
-    //   return (`<li class="todo-item"><button class='delete-button'>X</button>${todo.task}
-    //   <input type="checkbox" class="complete-checkbox"/></li>`);
-    // }
+  bindLiEvents: function(){
+      this.taskItem.forEach((task,index)=>{
+        task.addEventListener('input',()=>this.modifyaTodo(event,index));
+    });
+  },
+
+  modifyaTodo: function(event,index){
+    this.myTodos[index].task = event.target.textContent;
+    //no need to call render again!
+  },
+
+  gimmeLi: function(todo){
+
+    //do not allow user to modify a completed task!
     if(todo.isComplete){
       return (`<li class="todo-item">
                   <div class = 'taskitems-left-side'>
@@ -72,7 +80,7 @@ const TodoApp = {
       return (`<li class="todo-item">
                   <div class = 'taskitems-left-side'>
                     <button class='delete-button'>X</button>
-                    ${todo.task}
+                    <span class = 'item-task'contenteditable="true">${todo.task}</span>
                   </div>
                   <div class = 'taskitems-right-side'>
                     <input type="checkbox" class="complete-checkbox"/>
@@ -119,6 +127,8 @@ const TodoApp = {
     }
     this.cacheDeleteButtons();
     this.bindDeleteEvents();
+    this.cacheLiItems();
+    this.bindLiEvents();
     this.cacheCompleteCheckboxes();
     this.bindCompleteCheckboxEvents();
 
