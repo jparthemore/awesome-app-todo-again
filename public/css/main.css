@@ -4,6 +4,14 @@
   box-sizing: border-box;
 }*/
 
+.is-complete {
+  text-decoration: line-through;
+  contenteditable : false;
+}
+
+.is-incomplete {
+  contenteditable : true;
+}
 
 body{
     /*font-family: 'Open Sans', sans-serif;

@@ -69,29 +69,47 @@ const TodoApp = {
   gimmeLi: function(todo){
 
     //do not allow user to modify a completed task!
-    if(todo.isComplete){
-      return (`<li class="todo-item">
-                  <div class = 'taskitems-left-side'>
-                    <button class='delete-button'>X</button>
-                    <del>${todo.task}</del>
-                  </div>
-                  <div class = 'taskitems-right-side'>
-                    <input type="checkbox" class="complete-checkbox" checked/>
-                  </div>
-              </li>`);
-    }
-    else{
-      return (`<li class="todo-item">
-                  <div class = 'taskitems-left-side'>
-                    <button class='delete-button'>X</button>
-                    <span class = 'item-task'contenteditable="true">${todo.task}</span>
-                  </div>
-                  <div class = 'taskitems-right-side'>
-                    <input type="checkbox" class="complete-checkbox"/>
-                  </div>
-              </li>`);
-    }
+  //   if(todo.isComplete){
+  //     return (`<li class="todo-item">
+  //                 <div class = 'taskitems-left-side'>
+  //                   <button class='delete-button'>X</button>
+  //                   <del>${todo.task}</del>
+  //                 </div>
+  //                 <div class = 'taskitems-right-side'>
+  //                   <input type="checkbox" class="complete-checkbox" checked/>
+  //                 </div>
+  //             </li>`);
+  //   }
+  //   else{
+  //     return (`<li class="todo-item">
+  //                 <div class = 'taskitems-left-side'>
+  //                   <button class='delete-button'>X</button>
+  //                   <span class = 'item-task'contenteditable="true">${todo.task}</span>
+  //                 </div>
+  //                 <div class = 'taskitems-right-side'>
+  //                   <input type="checkbox" class="complete-checkbox"/>
+  //                 </div>
+  //             </li>`);
+  //   }
+  // },
+  return (`<li class="todo-item">
+              <div class = 'taskitems-left-side'>
+                <button class='delete-button'>X</button>
+                <span class=${todo.isComplete ? 'is-complete':'is-incomplete'}>${todo.task}</span>
+              </div>
+              <div class = 'taskitems-right-side'>
+                <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
+              </div>
+          </li>`);
   },
+
+  // li: function(todo){
+  //   return `<li>
+  //             <input type='checkbox' class='complete-box' ${todo.isComplete ? 'checked': ''}/>
+  //             <span class=${todo.isComplete ? 'complete':''}>${todo.task}</span>
+  //             <button class='delete'>X</button>
+  //          </li>`;
+  // },
   cacheCompleteCheckboxes: function(){
     this.completeChkBoxes = this.root.querySelectorAll('.complete-checkbox');
   },
