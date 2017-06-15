@@ -1,7 +1,7 @@
 /*jshint esversion: 6*/
 const TodoApp = {
   rootElement: '#app',
-  myTodos:[],
+  myTodos: JSON.parse(localStorage.getItem('myTodos')) || [],
   start: function(){
     this.cacheDOM();
     this.bindEvents();
@@ -31,6 +31,8 @@ const TodoApp = {
     };
     this.myTodos.push(toDo);
     this.render();
+    localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
+
     this.inputBox.value = '';
   },
   cacheDeleteButtons: function(){
@@ -45,6 +47,7 @@ const TodoApp = {
   deleteaTodo: function(index){
     this.myTodos.splice(index,1);
     this.render();
+    localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
   },
   cacheLiItems: function(){
     //this.liItems = this.root.querySelectorAll('.taskitems-left-side');//don't need this
@@ -59,7 +62,8 @@ const TodoApp = {
 
   modifyaTodo: function(event,index){
     this.myTodos[index].task = event.target.textContent;
-    //no need to call render again!
+    localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
+    //no need to call render again! in fact you don't want to or it re-renders after every single letter change
   },
 
   gimmeLi: function(todo){
@@ -104,6 +108,7 @@ const TodoApp = {
       this.myTodos[index].isComplete = false;
     }
     this.render();
+    localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
   },
   render: function(){
     //const lis = this.myTodos.map(todo=>todo.task).join(''); //this works but does not create actual li elements
@@ -132,7 +137,10 @@ const TodoApp = {
     this.cacheCompleteCheckboxes();
     this.bindCompleteCheckboxEvents();
 
-  }
+  },
+  addStorage: function(property,value) {
+    localStorage.setItem(property, value);
+  },
 
 };
 TodoApp.start();
