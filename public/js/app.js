@@ -52,6 +52,7 @@ const TodoApp = {
   cacheLiItems: function(){
     //this.liItems = this.root.querySelectorAll('.taskitems-left-side');//don't need this
     this.taskItem = this.root.querySelectorAll('.item-task');
+    console.log(this.taskItem);
   },
 
   bindLiEvents: function(){
@@ -62,6 +63,7 @@ const TodoApp = {
 
   modifyaTodo: function(event,index){
     this.myTodos[index].task = event.target.textContent;
+    console.log('made it here');
     localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
     //no need to call render again! in fact you don't want to or it re-renders after every single letter change
   },
@@ -92,24 +94,52 @@ const TodoApp = {
   //             </li>`);
   //   }
   // },
-  return (`<li class="todo-item">
+
+   //event listener not working but strkethou
+  /*return (`<li class="todo-item">
               <div class = 'taskitems-left-side'>
                 <button class='delete-button'>X</button>
-                <span class=${todo.isComplete ? 'is-complete':'is-incomplete'}>${todo.task}</span>
+                <span class = ${todo.isComplete ? 'is-complete':'is-incomplete'}
+                       'item-task' contenteditable=${todo.isComplete ? "false": contenteditable="true"}>
+                ${todo.task} </span>
               </div>
               <div class = 'taskitems-right-side'>
                 <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
               </div>
           </li>`);
-  },
+  },*/
 
-  // li: function(todo){
-  //   return `<li>
-  //             <input type='checkbox' class='complete-box' ${todo.isComplete ? 'checked': ''}/>
-  //             <span class=${todo.isComplete ? 'complete':''}>${todo.task}</span>
-  //             <button class='delete'>X</button>
-  //          </li>`;
-  // },
+  //event listener not working but strkethou
+ return (`<li class="todo-item">
+             <div class = 'taskitems-left-side'>
+               <button class='delete-button'>X</button>
+               <span class = ${todo.isComplete ? 'is-complete task-item' :'is-incomplete task-item'}
+                     contenteditable=${todo.isComplete ? "false": contenteditable="true"}>
+               ${todo.task} </span>
+             </div>
+             <div class = 'taskitems-right-side'>
+               <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
+             </div>
+         </li>`);
+ },
+
+
+
+  /*return (`<li class="todo-item">
+              <div class = 'taskitems-left-side'>
+                <button class='delete-button'>X</button>
+                <span class= 'item-task' contenteditable=${todo.isComplete ? "false": contenteditable="true"}
+                       ${todo.isComplete ? 'is-complete':'is-incomplete'}>
+                  ${todo.task}
+                </span>
+              </div>
+              <div class = 'taskitems-right-side'>
+                <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
+              </div>
+          </li>`);
+  },*/
+
+
   cacheCompleteCheckboxes: function(){
     this.completeChkBoxes = this.root.querySelectorAll('.complete-checkbox');
   },
@@ -141,6 +171,7 @@ const TodoApp = {
                     //.map(todo=>`<li>${todo.task}<button class='delete-button'>X</button></li>`)
                     .map(todo=>this.gimmeLi(todo))
                     .join('');
+    console.log(lis);
     this.todoList.innerHTML = lis;
     if(this.myTodos.length>0){
       this.completeLabel.style.visibility = 'visible';
