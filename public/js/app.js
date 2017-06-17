@@ -50,20 +50,17 @@ const TodoApp = {
     localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
   },
   cacheLiItems: function(){
-    //this.liItems = this.root.querySelectorAll('.taskitems-left-side');//don't need this
-    this.taskItem = this.root.querySelectorAll('.item-task');
-    console.log(this.taskItem);
+    this.taskItems = this.root.querySelectorAll('.task-item');
   },
 
   bindLiEvents: function(){
-      this.taskItem.forEach((task,index)=>{
+      this.taskItems.forEach((task,index)=>{
         task.addEventListener('input',()=>this.modifyaTodo(event,index));
     });
   },
 
   modifyaTodo: function(event,index){
     this.myTodos[index].task = event.target.textContent;
-    console.log('made it here');
     localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
     //no need to call render again! in fact you don't want to or it re-renders after every single letter change
   },
@@ -95,50 +92,18 @@ const TodoApp = {
   //   }
   // },
 
-   //event listener not working but strkethou
-  /*return (`<li class="todo-item">
+  return (`<li class="todo-item">
               <div class = 'taskitems-left-side'>
-                <button class='delete-button'>X</button>
-                <span class = ${todo.isComplete ? 'is-complete':'is-incomplete'}
-                       'item-task' contenteditable=${todo.isComplete ? "false": contenteditable="true"}>
+                <button class = 'delete-button'>X</button>
+                <span class = "task-item ${todo.isComplete ? 'is-complete':'is-incomplete'}"
+                       contenteditable = ${todo.isComplete ? "false": contenteditable = "true"}>
                 ${todo.task} </span>
               </div>
               <div class = 'taskitems-right-side'>
                 <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
               </div>
           </li>`);
-  },*/
-
-  //event listener not working but strkethou
- return (`<li class="todo-item">
-             <div class = 'taskitems-left-side'>
-               <button class='delete-button'>X</button>
-               <span class = ${todo.isComplete ? 'is-complete task-item' :'is-incomplete task-item'}
-                     contenteditable=${todo.isComplete ? "false": contenteditable="true"}>
-               ${todo.task} </span>
-             </div>
-             <div class = 'taskitems-right-side'>
-               <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
-             </div>
-         </li>`);
- },
-
-
-
-  /*return (`<li class="todo-item">
-              <div class = 'taskitems-left-side'>
-                <button class='delete-button'>X</button>
-                <span class= 'item-task' contenteditable=${todo.isComplete ? "false": contenteditable="true"}
-                       ${todo.isComplete ? 'is-complete':'is-incomplete'}>
-                  ${todo.task}
-                </span>
-              </div>
-              <div class = 'taskitems-right-side'>
-                <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
-              </div>
-          </li>`);
-  },*/
-
+  },
 
   cacheCompleteCheckboxes: function(){
     this.completeChkBoxes = this.root.querySelectorAll('.complete-checkbox');
@@ -168,10 +133,9 @@ const TodoApp = {
       // }).join('');
 
     const lis = this.myTodos
-                    //.map(todo=>`<li>${todo.task}<button class='delete-button'>X</button></li>`)
                     .map(todo=>this.gimmeLi(todo))
                     .join('');
-    console.log(lis);
+
     this.todoList.innerHTML = lis;
     if(this.myTodos.length>0){
       this.completeLabel.style.visibility = 'visible';
