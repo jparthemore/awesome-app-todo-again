@@ -65,44 +65,68 @@ const TodoApp = {
     //no need to call render again! in fact you don't want to or it re-renders after every single letter change
   },
 
-  gimmeLi: function(todo){
+  /*gimmeLi: function(todo){
 
     //do not allow user to modify a completed task!
-  //   if(todo.isComplete){
-  //     return (`<li class="todo-item">
-  //                 <div class = 'taskitems-left-side'>
-  //                   <button class='delete-button'>X</button>
-  //                   <del>${todo.task}</del>
-  //                 </div>
-  //                 <div class = 'taskitems-right-side'>
-  //                   <input type="checkbox" class="complete-checkbox" checked/>
-  //                 </div>
-  //             </li>`);
-  //   }
-  //   else{
-  //     return (`<li class="todo-item">
-  //                 <div class = 'taskitems-left-side'>
-  //                   <button class='delete-button'>X</button>
-  //                   <span class = 'item-task'contenteditable="true">${todo.task}</span>
-  //                 </div>
-  //                 <div class = 'taskitems-right-side'>
-  //                   <input type="checkbox" class="complete-checkbox"/>
-  //                 </div>
-  //             </li>`);
-  //   }
-  // },
-
-  return (`<li class="todo-item">
+    return (`<li class="todo-item">
               <div class = 'taskitems-left-side'>
                 <button class = 'delete-button'>X</button>
                 <span class = "task-item ${todo.isComplete ? 'is-complete':'is-incomplete'}"
                        contenteditable = ${todo.isComplete ? "false": contenteditable = "true"}>
-                ${todo.task} </span>
+                       ${todo.task}
+                </span>
               </div>
               <div class = 'taskitems-right-side'>
                 <input type="checkbox" class="complete-checkbox" ${todo.isComplete ? 'checked': ''}/>
               </div>
           </li>`);
+  },*/
+  gimmeLi : function(todo){
+     //will need the following to create the li's
+     const li = document.createElement('li');
+
+     const divLeft = document.createElement('div');
+     const divRight = document.createElement('div');
+     const chkbox = document.createElement('input');
+     const span = document.createElement('span');
+     const delBtn = document.createElement('button');
+
+     //configuration
+     divLeft.classList.add('taskitems-left-side');
+     divRight.classList.add('taskitems-right-side');
+     delBtn.classList.add('delete-button');
+     span.classList.add('task-item');
+     chkbox.type = 'checkbox';
+     chkbox.classList.add('complete-checkbox');
+
+     //properties
+     span.textContent = todo.task;
+     delBtn.textContent = 'X';
+
+     if(todo.isComplete){
+       span.classList.add('is-complete');
+       span.contentEditable = false;
+       chkbox.checked = true;
+     }
+     else{
+       span.classList.add('is-incomplete');
+       span.contentEditable = true;
+     }
+     ///console.dir(chkbox);
+
+     //this gives us divs!!! - for better formatting
+     li.appendChild(divLeft);
+     const leftChildren = [delBtn,span];
+     leftChildren.forEach(child => divLeft.appendChild(child));
+     li.appendChild(divRight);
+     const rightChildren = [chkbox];
+     rightChildren.forEach(child =>divRight.appendChild(child));
+
+     //works but no divs
+     /*const children = [delBtn, span, chkbox];
+     children.forEach(child => li.appendChild(child));*/
+
+     return li;
   },
 
   cacheCompleteCheckboxes: function(){
@@ -124,19 +148,13 @@ const TodoApp = {
     localStorage.setItem('myTodos', JSON.stringify(this.myTodos));
   },
   render: function(){
-    //const lis = this.myTodos.map(todo=>todo.task).join(''); //this works but does not create actual li elements
-
-    //const list - this.todos.map(function(todo,index){});//structure for code below - this works!
-      // const list = this.myTodos.map(function(todo,index){
-      //   //return('<li>' + todo.task + '</li>');//old clunkier syntax
-      //   return(`<li>${todo.task}</li>`);//new ES6 template string
-      // }).join('');
 
     const lis = this.myTodos
-                    .map(todo=>this.gimmeLi(todo))
-                    .join('');
+                    .map(todo=>this.gimmeLi(todo));
 
-    this.todoList.innerHTML = lis;
+    this.todoList.innerHTML = ''; //inner HTMl can lead to security vulnerability
+    lis.forEach(li => this.todoList.appendChild(li));
+
     if(this.myTodos.length>0){
       this.completeLabel.style.visibility = 'visible';
     }
