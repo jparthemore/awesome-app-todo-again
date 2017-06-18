@@ -4,7 +4,14 @@
   box-sizing: border-box;
 }*/
 
+.is-complete {
+  text-decoration: line-through;
+}
 
+.is-incomplete {
+  text-decoration: none;
+
+}
 body{
     /*font-family: 'Open Sans', sans-serif;
     font-size: 16px;*/
@@ -51,6 +58,7 @@ body{
 .delete-button{
   background-color: lightblue;
   border: 2px solid black;
+  margin-right: 10px;
 }
 
 .todo-item{
